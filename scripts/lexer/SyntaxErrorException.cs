@@ -20,5 +20,6 @@ namespace Wall_E_Compiler.scripts.lexer
             Position = position;
             ErrorDetails = message;
         }
+       
     }
 }

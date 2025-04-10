@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Animation;
-
-namespace Wall_E_Compiler.scripts.lexer
+﻿namespace Wall_E_Compiler.scripts.lexer
 {
     public class Lexer
     {
-        private string sourceCode;
+        private readonly string sourceCode;
         private int position;
         private int line;
 
@@ -31,8 +23,18 @@ namespace Wall_E_Compiler.scripts.lexer
                 {
                     if (currentChar == '\n') line++;
                     position++;
-                    break;
+                    continue;
                 }
+
+                Token token = ClassifyToken();
+                if (token != null)
+                {
+                    yield return token;
+                }
+                else
+                    ThrowSyntaxError($"Carácter inesperado '{currentChar}' en la línea {line}.");
+
+                yield return new Token(TokenType.EndOfFile, "", line);
             }
         }
 
@@ -86,7 +88,17 @@ namespace Wall_E_Compiler.scripts.lexer
                 return ReadNumber();
             }
 
+            if(char.IsLetter(currentChar))
+            {
+                return ReadIdentifierOrKeyword();
+            }
 
+            if( currentChar  == '"' )
+            {
+                return ReadString();
+            }
+
+            return null;
         }
 
         private char Peek()
@@ -117,7 +129,76 @@ namespace Wall_E_Compiler.scripts.lexer
                 position++;
             }
 
+            string lexeme = sourceCode.Substring(start, position - start);
 
+            TokenType? keywordType = GetKeywordType(lexeme);
+            if (keywordType.HasValue) 
+                return new Token(keywordType.Value, lexeme, line);
+
+            return new Token(TokenType.Identifier, lexeme, line);
+        }
+
+        private TokenType? GetKeywordType(string lexeme)
+        {
+            return lexeme switch
+            {
+                "Spawn" => TokenType.Spawn,
+                "Color" => TokenType.Color,
+                "Size" => TokenType.Size,
+                "DrawLine" => TokenType.DrawLine,
+                "DrawCircle" => TokenType.DrawCircle,
+                "DrawRectangle" => TokenType.DrawRectangle,
+                "Fill" => TokenType.Fill,
+                "GetActualX" => TokenType.GetActualX,
+                "GetActualY" => TokenType.GetActualY,
+                "GetCanvasSize" => TokenType.GetCanvasSize,
+                "GetColorCount" => TokenType.GetColorCount,
+                "IsBrushColor" => TokenType.IsBrushColor,
+                "IsBrushSize" => TokenType.IsBrushSize,
+                "IsCanvasColor" => TokenType.IsCanvasColor,
+                "GoTo" => TokenType.GoTo,
+                _ => null
+            };
+        }
+        
+        private Token ReadString()
+        {
+            position++;
+            int start = position;
+
+            while (position < sourceCode.Length && sourceCode[position] == '"')
+            {
+                position++;
+            }
+
+            if(position >= sourceCode.Length)
+            {
+                ThrowSyntaxError("String no terminado.");
+            }
+
+            string lexeme = sourceCode.Substring(start, position - start);
+            position++;
+
+            if(Enum.TryParse<Color>(lexeme, ignoreCase: true, out Color color))
+            {
+                return new Token(TokenType.ColorLit, lexeme, line, color);
+            }
+
+            return new Token(TokenType.String, lexeme, line, lexeme);
+
+        }
+
+        public enum Color
+        {
+            Red,
+            Blue,
+            Green,
+            Yellow,
+            Orange,
+            Purple,
+            Black,
+            White,
+            Transparent
         }
 
         private Token ThrowSyntaxError(string message)

@@ -30,7 +30,7 @@ namespace Wall_E_Compiler.scripts.lexer
         Spawn, Color, Size, DrawLine, DrawCircle, DrawRectangle, Fill, 
 
         // 2. Funciones
-        GetActualX, GetActualY, GetCanvasSize, GetColorCount, IsBrushColor, IsBrushSize, IsCanvasColor, IsColor,
+        GetActualX, GetActualY, GetCanvasSize, GetColorCount, IsBrushColor, IsBrushSize, IsCanvasColor,
 
         // 3. Operadores 
         Plus, Minus, Multiply, Divide, Power, Module, Equal, Less, LessOrEqual, Greater, GreaterOrEqual, Or, And,
