@@ -8,10 +8,11 @@ namespace Wall_E_Compiler.scripts.lexer
 {
     public class Token
     {
+
         public TokenType Type { get; }
         public string Lexeme { get; }
         public int Line { get; }
-        public object LiteralValue { get; } 
+        public object LiteralValue { get; }
 
         public Token(TokenType type, string lexeme, int line, object literalValue = null)
         {
@@ -21,30 +22,68 @@ namespace Wall_E_Compiler.scripts.lexer
             LiteralValue = literalValue;
         }
 
-        public override string ToString() => $"{Type} '{Lexeme}' at {Line}";
+        public static readonly Dictionary<string, TokenType> Types = new Dictionary<string, TokenType>
+        {
+            {"Spawn", TokenType.Spawn},
+            {"Color", TokenType.Color},
+            {"Size", TokenType.Size},
+            {"DrawLine", TokenType.DrawLine},
+            {"DrawCircle", TokenType.DrawCircle},
+            {"DrawRectangle", TokenType.DrawRectangle},
+            {"Fill", TokenType.Fill},
+            {"GoTo", TokenType.GoTo},
+            {"GetActualX", TokenType.GetActualX},
+            {"GetActualY", TokenType.GetActualY},
+            {"GetCanvasSize", TokenType.GetCanvasSize},
+            {"GetColorCount", TokenType.GetColorCount},
+            {"IsBrushColor", TokenType.IsBrushColor},
+            {"IsBrushSize", TokenType.IsBrushSize},
+            {"IsCanvasColor", TokenType.IsCanvasColor},
+            {"<-", TokenType.LeftArrow},
+            {"<=", TokenType.LessOrEqual},
+            {">=", TokenType.GreaterOrEqual},
+            {"==", TokenType.Equal},
+            {"**", TokenType.Power},
+            {"&&", TokenType.And},
+            {"||", TokenType.Or},
+            {"+", TokenType.Plus},
+            {"-", TokenType.Minus},
+            {"*", TokenType.Multiply},
+            {"/", TokenType.Divide},
+            {"%", TokenType.Module},
+            {"<", TokenType.Less},
+            {">", TokenType.Greater},
+            {"(", TokenType.LeftParenthesis},
+            {")", TokenType.RightParenthesis},
+            {"[", TokenType.LeftBracket},
+            {"]", TokenType.RightBracket},
+            {",", TokenType.Comma}
+        };
+
+        public override string ToString() => $"{Type} '{Lexeme}' at line {Line}";
     }
 
     public enum TokenType
     {
-        // 1. Intrucciones 
-        Spawn, Color, Size, DrawLine, DrawCircle, DrawRectangle, Fill, 
+        // keywords
+        Spawn, Color, Size, DrawLine, DrawCircle, DrawRectangle, Fill, GoTo,
 
-        // 2. Funciones
+        // funciones
         GetActualX, GetActualY, GetCanvasSize, GetColorCount, IsBrushColor, IsBrushSize, IsCanvasColor,
 
-        // 3. Operadores 
-        Plus, Minus, Multiply, Divide, Power, Module, Equal, Less, LessOrEqual, Greater, GreaterOrEqual, Or, And,
+        // operadores
+        LeftArrow, RightArrow, LessOrEqual, GreaterOrEqual, Equal, Power, And, Or, Plus, Minus, Multiply, Divide, Module, Less, Greater,
 
-        // 4. Herramientas de orden
-        Comma, LeftParenthesis, RightParenthesis, LeftBracket, RightBracker, Arrow,
+        // símbolos
+        LeftParenthesis, RightParenthesis, LeftBracket, RightBracket, Comma,
 
-        // Expresiones arítmeticas: Literales 
-        Number, ColorLit, String, Identifier,
+        // literales
+        Number, ColorLit,
 
-        //Ciclo
-        GoTo,
+        // identificadores
+        Identifier, Label,
 
-        //Entrada y cierre
+        // extra
         NewLine, EndOfFile
     }
 }

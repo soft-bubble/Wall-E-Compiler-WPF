@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Wall_E_Compiler.scripts.lexer;
 
 namespace Wall_E_Compiler
 {
@@ -19,6 +20,7 @@ namespace Wall_E_Compiler
         public MainWindow()
         {
             InitializeComponent();
+
         }
     }
 }
