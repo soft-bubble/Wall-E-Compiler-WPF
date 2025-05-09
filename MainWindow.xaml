@@ -5,8 +5,56 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wall_E_Compiler"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Wall-E" Height="600" Width="800">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <!-- Editor de código -->
+            <ColumnDefinition Width="Auto"/>
+            <!-- Controles -->
+            <ColumnDefinition Width="2*"/>
+            <!-- Canvas -->
+        </Grid.ColumnDefinitions>
 
+        <!-- Cuadro de texto para el código -->
+        <TextBox Grid.Column="0" 
+                 Text="Escribe tu código aquí..." 
+                 AcceptsReturn="True"
+                 FontFamily="Consolas"
+                 VerticalScrollBarVisibility="Auto"
+                 Margin="10"/>
+
+        <!-- Panel de botones y opciones -->
+        <StackPanel Grid.Column="1" Margin="10" VerticalAlignment="Center">
+            <TextBlock Text="Tamaño del Grid:" Margin="0,0,0,5"/>
+            <ComboBox SelectedIndex="0" Margin="0,0,0,15">
+                <ComboBoxItem Content="8x8"/>
+                <ComboBoxItem Content="16x16"/>
+                <ComboBoxItem Content="32x32"/>
+            </ComboBox>
+
+            <Button Content="Compilar" Width="100" Margin="0,0,0,10"/>
+            <Button Content="Limpiar" Width="100" Margin="0,0,0,10"/>
+            <Button Content="Salir" Width="100"/>
+        </StackPanel>
+
+        <!-- Canvas de Pixel Art (Grid) -->
+        <Border Grid.Column="2" Margin="10" BorderBrush="Gray" BorderThickness="1">
+            <ItemsControl x:Name="PixelGrid">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Rows="16" Columns="16"/>
+                        <!-- Default: 16x16 -->
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="#FFD3D3D3" BorderThickness="1">
+                            <Rectangle Fill="White" MouseDown="Pixel_MouseDown"/>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
     </Grid>
 </Window>

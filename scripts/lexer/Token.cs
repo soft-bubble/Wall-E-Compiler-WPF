@@ -65,25 +65,20 @@ namespace Wall_E_Compiler.scripts.lexer
 
     public enum TokenType
     {
-        // keywords
         Spawn, Color, Size, DrawLine, DrawCircle, DrawRectangle, Fill, GoTo,
-
-        // funciones
         GetActualX, GetActualY, GetCanvasSize, GetColorCount, IsBrushColor, IsBrushSize, IsCanvasColor,
-
-        // operadores
-        LeftArrow, RightArrow, LessOrEqual, GreaterOrEqual, Equal, Power, And, Or, Plus, Minus, Multiply, Divide, Module, Less, Greater,
-
-        // símbolos
+        LeftArrow, LessOrEqual, GreaterOrEqual, Equal, Power, And, Or, Plus, Minus, Multiply, Divide, Module, Less, Greater,
         LeftParenthesis, RightParenthesis, LeftBracket, RightBracket, Comma,
-
-        // literales
         Number, ColorLit,
-
-        // identificadores
+        True, False,
         Identifier, Label,
-
-        // extra
         NewLine, EndOfFile
     }
+
+    public enum ASType
+    {
+        Num, Bool, ColorP, Evaluation, Chunk, Spawn, Color, Size, DrawLine, DrawCircle, Fill, DrawRectangle, 
+        GoTo, GetActualX, GetActualY, GetColorCount, GetCanvasSize, IsBrushColor, IsBrushSize, IsCanvasColor
+    }
+
 }
