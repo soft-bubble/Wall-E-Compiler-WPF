@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Shapes;
-using Wall_E_Compiler.scripts.ast;
+using Wall_E_Compiler;
 
-namespace Wall_E_Compiler.scripts.scope
+namespace Wall_E_Compiler
 {
     public class Global
     {

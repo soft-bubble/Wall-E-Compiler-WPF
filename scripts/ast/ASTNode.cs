@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Shapes;
-using Wall_E_Compiler.scripts.lexer;
+using Wall_E_Compiler;
 
-namespace Wall_E_Compiler.scripts.ast
+namespace Wall_E_Compiler
 {
     public abstract class ASTNode
     {
@@ -19,7 +19,7 @@ namespace Wall_E_Compiler.scripts.ast
             this.Line = line;
         }
 
-        public abstract bool IsValid();
+        public abstract bool IsValid(Global global);
         public bool MatchType(ASType type) => Type == type;
     }
 

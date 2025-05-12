@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Shapes;
 
-namespace Wall_E_Compiler.scripts.lexer
+namespace Wall_E_Compiler
 {
     public class SyntaxErrorException : Exception
     {

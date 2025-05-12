@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System;
 
-namespace Wall_E_Compiler.scripts.lexer
+namespace Wall_E_Compiler
 {
     public class Lexer
     {

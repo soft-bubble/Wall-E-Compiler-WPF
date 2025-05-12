@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Wall_E_Compiler.scripts.lexer
+namespace Wall_E_Compiler
 {
     public static class ConsoleTester
     {
