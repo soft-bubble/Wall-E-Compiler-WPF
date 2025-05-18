@@ -11,7 +11,7 @@ namespace Wall_E_Compiler
     public abstract class Statement : ASTNode
     {
         public Statement(ASType type, int line) : base(type, line) { }
-        public abstract void Evaluate();
+        public abstract void Evaluate(Global global);
     }
 
     public class GoTo : Statement
@@ -29,23 +29,11 @@ namespace Wall_E_Compiler
         public override bool IsValid(Global global) 
             => global.Labels.ContainsKey(Label) && Condition.MatchType(ASType.Bool);
 
-        public override void Evaluate() => throw new NotImplementedException();
-    }
-
-    public class Label : Statement
-    {
-        public Statement Body { get; private set; }
-
-        public Label(ASType type, int line, Statement body)
-            : base(type, line)
+        public override void Evaluate(Global global)
         {
-            Body = body;
+            if (!(bool)Condition.Evaluate(global)) return;
+            global.Labels[Label].Evaluate(global);
         }
-
-        public override bool IsValid(Global global)
-            => Body.IsValid(global);
-
-        public override void Evaluate() => throw new NotImplementedException();
     }
 
     public class Declaration : Statement
@@ -62,9 +50,6 @@ namespace Wall_E_Compiler
         public override bool IsValid(Global global) 
             => Variable.IsValid(global);
 
-        public override void Evaluate()
-        {
-            throw new NotImplementedException();
-        }
+        public override void Evaluate(Global global) => global.AddVariable(Name, Variable);
     }
 }

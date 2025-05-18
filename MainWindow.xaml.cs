@@ -13,18 +13,47 @@ using Wall_E_Compiler;
 
 namespace Wall_E_Compiler
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
+        private Canvas drawingCanvas;
         private int currentGridSize = 16;
 
         public MainWindow()
         {
             InitializeComponent();
-            InitializePixelGrid(currentGridSize);
+            InitializeCanvas(currentGridSize);
             GridSizeComboBox.SelectionChanged += GridSizeComboBox_SelectionChanged;
+        }
+
+        private void InitializeCanvas(int size)
+        {
+            PixelGrid.Children.Clear();
+            PixelGrid.Rows = size;
+            PixelGrid.Columns = size;
+
+            // Crear elementos UI
+            for (int i = 0; i < size * size; i++)
+            {
+                PixelGrid.Children.Add(new Border()
+                {
+                    BorderBrush = Brushes.LightGray,
+                    BorderThickness = new Thickness(1),
+                    Background = Brushes.White
+                });
+            }
+
+            // Inicializar nuestro canvas lógico
+            drawingCanvas = new Canvas(size, PixelGrid);
+        }
+
+        private void CompileButton_Click(object sender, RoutedEventArgs e)
+        {
+            string code = CodeTextBox.Text;
+        }
+
+        private void ClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            drawingCanvas.Clear();
         }
 
         private void GridSizeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -32,49 +61,8 @@ namespace Wall_E_Compiler
             if (GridSizeComboBox.SelectedItem is ComboBoxItem selectedItem &&
                 int.TryParse(selectedItem.Tag.ToString(), out int newSize))
             {
-                currentGridSize = newSize;
-                InitializePixelGrid(currentGridSize);
+                InitializeCanvas(newSize);
             }
-        }
-
-        private void InitializePixelGrid(int size)
-        {
-            PixelGrid.Children.Clear();
-            PixelGrid.Rows = size;
-            PixelGrid.Columns = size;
-
-            for (int i = 0; i < size * size; i++)
-            {
-                var border = new Border()
-                {
-                    BorderBrush = Brushes.LightGray,
-                    BorderThickness = new Thickness(1),
-                    Background = Brushes.White
-                };
-                PixelGrid.Children.Add(border);
-            }
-        }
-
-        private void CompileButton_Click(object sender, RoutedEventArgs e)
-        {
-            string codigo = CodeTextBox.Text;
-            ChangePixelColor(2, 3, Brushes.Red);
-            MessageBox.Show($"Código compilado: {codigo}");
-        }
-
-        private void ChangePixelColor(int row, int col, Brush color)
-        {
-            int index = row * currentGridSize + col;
-            if (index >= 0 && index < PixelGrid.Children.Count)
-            {
-                ((Border)PixelGrid.Children[index]).Background = color;
-            }
-        }
-
-        private void ClearButton_Click(object sender, RoutedEventArgs e)
-        {
-            CodeTextBox.Clear();
-            InitializePixelGrid(currentGridSize);
         }
     }
 }

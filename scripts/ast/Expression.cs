@@ -11,7 +11,7 @@ namespace Wall_E_Compiler
     public abstract class Expression : ASTNode
     {
         public Expression(ASType type, int line) : base(type, line) { }
-        public abstract object? Evaluate();
+        public abstract object? Evaluate(Global global);
     }
 
     public class Boolean : Expression
@@ -20,7 +20,7 @@ namespace Wall_E_Compiler
         public Boolean(bool value, int linea) : base(ASType.Bool, linea) { Value = value; }
 
         public override bool IsValid(Global global) => Type == ASType.Bool;
-        public override object? Evaluate() { throw new NotImplementedException(); }
+        public override object? Evaluate(Global global) => Value;
     }
 
     public class Number : Expression
@@ -29,7 +29,7 @@ namespace Wall_E_Compiler
         public Number(int value, int linea) : base(ASType.Num, linea) { Value = value; }
 
         public override bool IsValid(Global global) => Type == ASType.Num;
-        public override object? Evaluate() { throw new NotImplementedException(); }
+        public override object? Evaluate(Global global) => Value;
     }
 
     public class ColorExp : Expression
@@ -38,15 +38,15 @@ namespace Wall_E_Compiler
         public ColorExp(string value, int linea) : base(ASType.Color, linea) { Value = value; }
 
         public override bool IsValid(Global global) => Type == ASType.Color;
-        public override object? Evaluate() { throw new NotImplementedException(); }
+        public override object? Evaluate(Global global) => Value;
     }
 
     public class Variable : Expression
     {
         public string Name { get; private set; }
         public Expression Value { get; private set; }
-        
-        public Variable(string name, Expression value, int line) : base (value.Type, value.Line)
+
+        public Variable(string name, Expression value, int line) : base(value.Type, value.Line)
         { Name = name; Value = value; }
 
         public void ChangeValue(Expression node)
@@ -55,7 +55,6 @@ namespace Wall_E_Compiler
         }
 
         public override bool IsValid(Global global) => Value.IsValid(global);
-        public override object? Evaluate() { throw new NotImplementedException() ; }
+        public override object? Evaluate(Global global) => Value;
     }
-
 }

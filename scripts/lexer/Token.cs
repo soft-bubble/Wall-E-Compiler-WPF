@@ -81,4 +81,9 @@ namespace Wall_E_Compiler
         GoTo, GetActualX, GetActualY, GetColorCount, GetCanvasSize, IsBrushColor, IsBrushSize, IsCanvasColor
     }
 
+    public enum PixelColor
+    {
+        Transparent, White, Black, Green, Blue, Yellow, Red, Orange, Purple
+    }
+
 }
